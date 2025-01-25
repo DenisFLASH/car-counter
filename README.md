@@ -34,7 +34,7 @@ A Python-based project for counting cars. This guide will help you set up and ru
 
 Run the main script:
 ```bash
-python youtube-stream-download.py
+python3 youtube-stream-download.py
 ```
 
 ## Notes
