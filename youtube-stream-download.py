@@ -21,7 +21,7 @@ with yt_dlp.YoutubeDL(ydl_opts) as ydl:
     best_format = max(formats, key=lambda f: f.get('height', 0))
     stream_url = best_format['url']
     # Get the YouTube stream FPS (usually fixed)
-    youtube_fps = best_format['fps']
+    print(f"YouTube FPS: {best_format['fps']}")
 
 # Open video stream with OpenCV
 cap = cv2.VideoCapture(stream_url)
@@ -44,10 +44,9 @@ while cap.isOpened():
 
     # Text lines to display
     text_lines = [
+        f"{current_time}",
         f"Frame Count: {frame_count}",
-        f"Script FPS: {current_fps:.2f}",
-        f"YouTube FPS: {int(youtube_fps)}",
-        f"Time: {current_time}"
+        f"Script FPS: {current_fps:.2f}"
     ]
 
     # Position for text
