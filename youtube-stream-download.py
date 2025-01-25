@@ -2,10 +2,15 @@ from datetime import datetime
 import time
 
 import cv2
+import pytz
 import yt_dlp
+
+
+
 
 # 4 Corners Camera - downtown Coldwater, MI, USA
 url = "https://www.youtube.com/watch?v=ByED80IKdIU"
+camera_tz = pytz.timezone('America/Detroit')
 
 # Extract video information using yt-dlp
 ydl_opts = {}
@@ -35,8 +40,7 @@ while cap.isOpened():
     # Calculate current FPS (frames per second)
     current_fps = frame_count / (time.time() - start_time)
 
-    # Get current time in local time
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # TODO get youtube camera's time
+    current_time = datetime.now(camera_tz).strftime("%Y-%m-%d %H:%M:%S")
 
     # Text lines to display
     text_lines = [

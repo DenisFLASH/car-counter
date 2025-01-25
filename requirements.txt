@@ -1,2 +1,3 @@
 opencv-python==4.10.0.84
+pytz==2024.2
 yt-dlp==2024.12.23
