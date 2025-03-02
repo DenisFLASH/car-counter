@@ -8,13 +8,14 @@ import yt_dlp
 
 def get_youtube_stream_url(url):
     """Extract the best stream URL from the YouTube video."""
-    ydl_opts = {}
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    with yt_dlp.YoutubeDL() as ydl:
         info = ydl.extract_info(url, download=False)
         formats = info["formats"]
         best_format = max(formats, key=lambda f: f.get("height", 0))
         stream_url = best_format["url"]
-        print(f"YouTube FPS: {best_format['fps']}")
+        fps = best_format["fps"]
+        res = best_format["resolution"]
+        print(f"YouTube FPS: {fps}, resolution: {res}")
         return stream_url
 
 
@@ -40,7 +41,6 @@ def main():
     url = "https://www.youtube.com/watch?v=ByED80IKdIU"
     camera_tz = pytz.timezone('America/Detroit')
 
-    # Get YouTube stream URL and FPS
     stream_url = get_youtube_stream_url(url)
 
     # Open video stream with OpenCV
