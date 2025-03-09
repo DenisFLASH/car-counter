@@ -30,6 +30,16 @@ A Python-based project for counting cars. This guide will help you set up and ru
    pip install -r requirements.txt
    ```
 
+5. Install yolov5:
+    ```bash
+    git clone https://github.com/ultralytics/yolov5.git
+    pip install -r yolov5/requirements.txt
+    ```
+
+6. Download yolov5s model
+TODO
+
+
 ## Running the Project
 
 Run the main script:
