@@ -3,11 +3,9 @@ import time
 
 import cv2
 import pytz
-import torch
 import yt_dlp
 
-
-CAR_CLASS_ID = 2  # (COCO class 2 is 'car')
+from car_detector import CarDetector
 
 
 def get_youtube_stream_url(url):
@@ -43,32 +41,9 @@ def add_text_to_frame(frame, text_lines):
         y_offset += 30
 
 
-def detect_cars(frame, model):
-    # TODO move to predictor.py
-
-    # Run YOLO inference
-    results = model(frame)
-    # Extract detection results
-    detections = results.xyxy[0]  # x1, y1, x2, y2, conf, class
-    car_boxes = []
-
-    for *box, conf, cls in detections:
-        if int(cls) == CAR_CLASS_ID:
-            x1, y1, x2, y2 = map(int, box)
-            car_boxes.append((x1, y1, x2, y2, conf.item()))
-
-            # Draw bounding box and label on frame
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(frame, f"Car {conf:.2f}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
-    print(f"Detected {len(car_boxes)} cars.")
-    return frame
-
-
 def main():
     # TODO refactor the main function
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5s.pt', force_reload=False)
-    print(model)
+    detector = CarDetector()
 
     # 4 Corners Camera - downtown Coldwater, MI, USA
     url = "https://www.youtube.com/watch?v=ByED80IKdIU"
@@ -88,7 +63,7 @@ def main():
         if not ret:
             break
 
-        detected_frame = detect_cars(frame, model)
+        detected_frame = detector.detect_cars(frame)
         cv2.imshow("Car Detection", detected_frame)
 
         # TODO the whole frame counting and editing block may be extracted as a function
